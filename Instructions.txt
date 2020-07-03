@@ -1,1 +1,9 @@
 -------------AN INSTRUCTION FILE ON HOW TO CLONE AND USE---------------
+follow the steps below to clone the repo to your local machine!
+
+* hit the green button with text "code"
+* in the dropdown select either of 'clone with ssh' or 'https'
+* if you're going to use the CLI copy the link for https option or copy the command for ssh option
+* however, if you need to clone directly, simply hit the link "download zip"
+
+And you're all done.
