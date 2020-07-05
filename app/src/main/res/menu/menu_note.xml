@@ -9,5 +9,5 @@
         app:showAsAction="never" />
     <item
         android:id="@+id/action_cancel"
-        android:title="Cancel" />
+        android:title="@string/cancel" />
 </menu>
