@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -171,6 +172,10 @@ public class NoteActivity extends AppCompatActivity {
         //    return true;
         //}
         switch (id) {
+            case R.id.action_next:
+                moveNext();
+                //Toast.makeText(this,"Next button clicked!", Toast.LENGTH_SHORT).show();
+                return true;
             case R.id.action_send_mail:
                 sendEmail();
                 return true;
@@ -180,6 +185,29 @@ public class NoteActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        MenuItem item = menu.findItem(R.id.action_next);
+        int lastNoteIndex  = DataManager.getInstance().getNotes().size() - 1;
+        //item.setEnabled(mNotePosition > lastNoteIndex); use this if you wanna disable item
+        item.setVisible(!(mNotePosition >= lastNoteIndex)); //use this if you wanna hide item
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    private void moveNext() {
+        saveNote();
+        ++mNotePosition;
+
+        mNote = DataManager.getInstance().getNotes().get(mNotePosition);
+
+        saveOriginalNoteValues();
+        displayNotes(mSpinnerCourses, mTextNoteTitle, mTextNoteText);
+
+        //Toast.makeText(this,"End of Notes!",Toast.LENGTH_SHORT).show();
+        invalidateOptionsMenu();
+
     }
 
     private void sendEmail() {
