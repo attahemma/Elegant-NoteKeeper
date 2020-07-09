@@ -15,13 +15,11 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.core.view.GravityCompat;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -30,6 +28,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private AppBarConfiguration mAppBarConfiguration;
     private DrawerLayout mDrawerLayout;
+    private RecyclerView mRecyclerItems;
+    private LinearLayoutManager mNotesLayoutManager;
+    private CourseRecyclerAdapter mCourseRecyclerAdapter;
+    private GridLayoutManager mCoursesLayoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,27 +98,87 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //        });
 
         //create a recyclerview instance with the layout resource
-        final RecyclerView recyclerNotes = (RecyclerView) findViewById(R.id.list_notes);
+        mRecyclerItems = (RecyclerView) findViewById(R.id.list_notes);
 
         //creating a layout manager for the recyclerview specifically the linearlayoutmanager
-        final LinearLayoutManager notesLayoutManager = new LinearLayoutManager(this);
+        mNotesLayoutManager = new LinearLayoutManager(this);
+        mCoursesLayoutManager = new GridLayoutManager(this,
+                getResources().getInteger(R.integer.course_grid_span));
 
-        //associate the layoutmanager with the recyclerview
-        recyclerNotes.setLayoutManager(notesLayoutManager);
 
         //now go ahead to create the layout for individual items of the recyclerview
 
-        //now associate recyclerview with the adapter created.
-        List<NoteInfo> note = DataManager.getInstance().getNotes();
 
+        List<NoteInfo> note = DataManager.getInstance().getNotes();
         mNoteRecyclerAdapter = new NoteRecyclerAdapter(this,note);
-        recyclerNotes.setAdapter(mNoteRecyclerAdapter);
+
+        List<CourseInfo> courses = DataManager.getInstance().getCourses();
+        mCourseRecyclerAdapter = new CourseRecyclerAdapter(this,courses);
+
+        displayNotes();
+    }
+
+    private void displayCourses(){
+        mRecyclerItems.setLayoutManager(mCoursesLayoutManager);
+        mRecyclerItems.setAdapter(mCourseRecyclerAdapter);
+        setNavigationMenuItem(R.id.nav_courses);
+    }
+    private void displayNotes() {
+        //associate the layoutmanager with the recyclerview
+        mRecyclerItems.setLayoutManager(mNotesLayoutManager);
+        //now associate recyclerview with the adapter created.
+        mRecyclerItems.setAdapter(mNoteRecyclerAdapter);
+
+        setNavigationMenuItem(R.id.nav_notes);
+    }
+
+    private void setNavigationMenuItem(int menuItem) {
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        Menu menu = navigationView.getMenu();
+        MenuItem item = menu.findItem(menuItem);
+        item.setChecked(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        switch (id){
+            case R.id.action_settings:
+                startActivity(new Intent(this,SettingsActivity.class));
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+
+        switch (id){
+            case R.id.nav_notes:
+                displayNotes();
+                break;
+            case R.id.nav_courses:
+                displayCourses();
+                break;
+            case R.id.nav_settings:
+                startActivity(new Intent(this,SettingsActivity.class));
+                return true;
+            case R.id.nav_share:
+                handleSelection("You have shared enough");
+                break;
+            case R.id.nav_send:
+                handleSelection("Send");
+                break;
+        }
+
         mDrawerLayout.closeDrawer(GravityCompat.START);
         return true;
+    }
+    private void handleSelection(String message){
+        View view = findViewById(R.id.list_notes);
+        Snackbar.make(view, message, Snackbar.LENGTH_SHORT).show();
     }
 
     // this method handles click events of the back navigation button on the navigationBar

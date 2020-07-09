@@ -18,7 +18,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material/icons/materialicons/event_note/baseline_event_note_24.xml" />
+                                      <entry key="url" value="jar:file:/C:/Program%20Files/Android/Android%20Studio/plugins/android/lib/android.jar!/images/material/icons/materialicons/replay/baseline_replay_24.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -28,8 +28,8 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="color" value="fafafa" />
-                            <entry key="outputName" value="ic_baseline_event_note_24" />
+                            <entry key="color" value="ffffff" />
+                            <entry key="outputName" value="cancel" />
                             <entry key="sourceFile" value="C:\Users\GCONAM\Desktop\NoteKeeper" />
                           </map>
                         </option>
