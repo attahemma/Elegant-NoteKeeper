@@ -39,4 +39,8 @@
     <string name="attachment_summary_on">Automatically download attachments for incoming emails
     </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <string name="course_activity_title">Courses</string>
+    <string name="note_activity_title">Notes</string>
+    <string name="app_new_name">Elegant NoteKeeper</string>
+    <string name="settings_activity_title">Settings</string>
 </resources>

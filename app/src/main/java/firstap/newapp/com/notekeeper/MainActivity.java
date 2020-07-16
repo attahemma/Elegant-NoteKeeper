@@ -32,13 +32,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private LinearLayoutManager mNotesLayoutManager;
     private CourseRecyclerAdapter mCourseRecyclerAdapter;
     private GridLayoutManager mCoursesLayoutManager;
+    private Toolbar mToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        mToolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
 
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.open_drawer,R.string.close_drawer);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.open_drawer,R.string.close_drawer);
         mDrawerLayout.setDrawerListener(toggle);
         toggle.syncState();
 //        mAppBarConfiguration = new AppBarConfiguration.Builder(
@@ -122,6 +123,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mRecyclerItems.setLayoutManager(mCoursesLayoutManager);
         mRecyclerItems.setAdapter(mCourseRecyclerAdapter);
         setNavigationMenuItem(R.id.nav_courses);
+
+        mToolbar.setTitle(R.string.course_activity_title);
+
     }
     private void displayNotes() {
         //associate the layoutmanager with the recyclerview
@@ -129,6 +133,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //now associate recyclerview with the adapter created.
         mRecyclerItems.setAdapter(mNoteRecyclerAdapter);
 
+        mToolbar.setTitle(R.string.note_activity_title);
         setNavigationMenuItem(R.id.nav_notes);
     }
 
@@ -166,7 +171,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 startActivity(new Intent(this,SettingsActivity.class));
                 return true;
             case R.id.nav_share:
-                handleSelection("You have shared enough");
+                handleShare();
                 break;
             case R.id.nav_send:
                 handleSelection("Send");
@@ -176,6 +181,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         mDrawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    private void handleShare() {
+
+    }
+
     private void handleSelection(String message){
         View view = findViewById(R.id.list_notes);
         Snackbar.make(view, message, Snackbar.LENGTH_SHORT).show();
